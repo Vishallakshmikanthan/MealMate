@@ -43,7 +43,7 @@ export default function MealLogPage() {
   const changeDate = (days: number) => {
     const d = new Date(selectedDate);
     d.setDate(d.getDate() + days);
-    setSelectedDate(d.toISOString().split("T")[0]);
+    setSelectedDate(d.toISOString().split("T")[0] ?? selectedDate);
   };
 
   const handleRemove = (logId: string) => {

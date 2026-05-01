@@ -15,7 +15,7 @@ import {
 import { getTodayMenu } from "@/data/menu-week";
 
 export default function PreOrderPage() {
-  const [cart, setCart] = useState<string[]>([]);
+  const [cart, setCart] = useState<number[]>([]);
   const [orderStatus, setOrderStatus] = useState<"idle" | "success">("idle");
   const todayMenu = getTodayMenu();
 
@@ -25,7 +25,7 @@ export default function PreOrderPage() {
     ...todayMenu.dinner.items.map(i => ({ ...i, type: "Dinner" }))
   ];
 
-  const toggleItem = (id: string) => {
+  const toggleItem = (id: number) => {
     setCart(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
 

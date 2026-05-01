@@ -158,6 +158,28 @@ export function isItemLogged(
   return entry?.items.some((i) => i.id === itemId) ?? false;
 }
 
+/** Removes an entire MealLog entry by its log id. */
+export function removeLogItem(logId: string): void {
+  // Find which date this log belongs to by scanning all stored keys
+  if (typeof window === "undefined") return;
+  try {
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (!key?.startsWith("mealops:logs:")) continue;
+      const date = key.replace("mealops:logs:", "");
+      const logs = getLogsForDate(date);
+      const filtered = logs.filter((l) => l.id !== logId);
+      if (filtered.length !== logs.length) {
+        storageSet(KEYS.logsForDate(date), filtered);
+        dispatchStorageUpdate();
+        return;
+      }
+    }
+  } catch {
+    // no-op
+  }
+}
+
 /** Deletes all logs for a given date. */
 export function clearLogsForDate(date: string): void {
   storageDelete(KEYS.logsForDate(date));
